@@ -1,0 +1,31 @@
+
+> gestor-tareas@1.0.0 test
+> jest --ci --coverage
+
+PASS tests/tasks.test.js
+  Salud y métricas
+    √ GET /health responde ok (34 ms)
+    √ GET /metrics expone métricas de Prometheus (10 ms)
+  Tareas
+    √ POST /tasks crea una tarea (12 ms)
+    √ POST /tasks sin título devuelve 400 (3 ms)
+    √ GET /tasks lista las tareas creadas (5 ms)
+    √ PUT /tasks/:id/done marca la tarea como hecha (8 ms)
+    √ PUT /tasks/:id/done con id inexistente devuelve 404 (2 ms)
+    √ DELETE /tasks/:id elimina la tarea (5 ms)
+    √ DELETE /tasks/:id con id inexistente devuelve 404 (5 ms)
+  Reporte
+    √ GET /reporte cuenta tareas totales, hechas y pendientes (8 ms)
+    √ GET /reporte responde en menos de 50 ms (regresión de rendimiento) (3 ms)
+
+----------|---------|----------|---------|---------|-------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+----------|---------|----------|---------|---------|-------------------
+All files |     100 |    83.33 |     100 |     100 |                   
+ app.js   |     100 |    83.33 |     100 |     100 | 20-40             
+----------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       11 passed, 11 total
+Snapshots:   0 total
+Time:        1.045 s
+Ran all test suites.

@@ -1,0 +1,55 @@
+﻿
+> gestor-tareas@1.0.0 test
+> jest --ci --coverage
+
+npm.cmd : FAIL tests/tasks.test.js
+En línea: 1 Carácter: 914
++ ... ,$t,(New-Object Text.UTF8Encoding $false)); npm.cmd test 2>&1 | Out-F ...
++                                                 ~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FAIL tests/tasks.test.js:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  Salud y mÃ©tricas
+    √ GET /health responde ok (28 ms)
+    √ GET /metrics expone mÃ©tricas de Prometheus (8 ms)
+  Tareas
+    √ POST /tasks crea una tarea (15 ms)
+    √ POST /tasks sin tÃ­tulo devuelve 400 (3 ms)
+    √ GET /tasks lista las tareas creadas (8 ms)
+    √ PUT /tasks/:id/done marca la tarea como hecha (4 ms)
+    √ PUT /tasks/:id/done con id inexistente devuelve 404 (2 ms)
+    √ DELETE /tasks/:id elimina la tarea (8 ms)
+    √ DELETE /tasks/:id con id inexistente devuelve 404 (2 ms)
+  Reporte
+    √ GET /reporte cuenta tareas totales, hechas y pendientes (81 ms)
+    × GET /reporte responde en menos de 50 ms (regresión de rendimiento) (109 ms)
+
+  ● Reporte › GET /reporte responde en menos de 50 ms (regresión de rendimiento)
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 50
+    Received:   107.4501
+
+    [0m [90m 77 |[39m     [36mconst[39m ms [33m=[39m 
+[33mNumber[39m(process[33m.[39mhrtime[33m.[39mbigint() [33m-[39m inicio) [33m/[39m [35m1e6[39m[33m;[39m
+     [90m 78 |[39m     expect(res[33m.[39mstatus)[33m.[39mtoBe([35m200[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 79 |[39m     expect(ms)[33m.[39mtoBeLessThan([35m50[39m)[33m;[39m
+     [90m    |[39m                [31m[1m^[22m[39m
+     [90m 80 |[39m   })[33m;[39m
+     [90m 81 |[39m })[33m;[39m
+     [90m 82 |[39m[0m
+
+      at Object.toBeLessThan (tests/tasks.test.js:79:16)
+
+----------|---------|----------|---------|---------|-------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+----------|---------|----------|---------|---------|-------------------
+All files |     100 |    83.33 |     100 |     100 |                   
+ app.js   |     100 |    83.33 |     100 |     100 | 20-40             
+----------|---------|----------|---------|---------|-------------------
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 10 passed, 11 total
+Snapshots:   0 total
+Time:        1.429 s, estimated 2 s
+Ran all test suites.
