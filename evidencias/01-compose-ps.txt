@@ -1,0 +1,4 @@
+﻿NAME                            IMAGE                    COMMAND                  SERVICE      CREATED              STATUS              PORTS
+unidad2domenzain-api-1          unidad2domenzain-api     "docker-entrypoint.s…"   api          About a minute ago   Up About a minute   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+unidad2domenzain-grafana-1      grafana/grafana:latest   "/run.sh"                grafana      17 seconds ago       Up 16 seconds       0.0.0.0:3001->3000/tcp, [::]:3001->3000/tcp
+unidad2domenzain-prometheus-1   prom/prometheus:latest   "/bin/prometheus --c…"   prometheus   About a minute ago   Up About a minute   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp
