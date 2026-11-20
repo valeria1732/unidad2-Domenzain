@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Reporte - Desarrollo e integración continua</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;margin:40px;color:#222}
+h1{border-bottom:3px solid #2b5797;padding-bottom:6px}
+h2{color:#2b5797;margin-top:28px}
+pre{background:#1e1e1e;color:#d4d4d4;padding:14px;border-radius:6px;font:12px Consolas,monospace;white-space:pre-wrap}
+.ok{color:#4ec9b0}.cmd{color:#dcdcaa}
+img{max-width:100%;border:1px solid #888;border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13px}td,th{border:1px solid #999;padding:5px}th{background:#e8eef7}
+.pend{background:#fff4cc;padding:8px;border-left:4px solid #e0a800}
+</style></head><body>
+<h1>Ejercicio práctico: Desarrollo e integración continua</h1>
+<p><b>Alumna:</b> Valeria &nbsp; <b>Repositorio:</b> https://github.com/valeria1732/unidad2-Domenzain<br><b>Fecha:</b> 19/11/2026</p>
+
+<h2>Evidencia 1. Pruebas y cobertura (Parte 1)</h2>
+<pre><span class="cmd">PS&gt; npm test</span>
+&gt; gestor-tareas@1.0.0 test
+&gt; jest --ci --coverage
+
+<span class="ok">PASS</span> tests/tasks.test.js
+  Salud y métricas
+    √ GET /health responde ok (40 ms)
+    √ GET /metrics expone métricas de Prometheus (12 ms)
+  Tareas
+    √ POST /tasks crea una tarea (19 ms)
+    √ POST /tasks sin título devuelve 400 (4 ms)
+    √ GET /tasks lista las tareas creadas (6 ms)
+    √ PUT /tasks/:id/done marca la tarea como hecha (9 ms)
+    √ PUT /tasks/:id/done con id inexistente devuelve 404 (4 ms)
+    √ DELETE /tasks/:id elimina la tarea (8 ms)
+    √ DELETE /tasks/:id con id inexistente devuelve 404 (3 ms)
+  Reporte
+    √ GET /reporte cuenta tareas totales, hechas y pendientes (95 ms)
+
+----------|---------|----------|---------|---------|-------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+----------|---------|----------|---------|---------|-------------------
+All files |     100 |    83.33 |     100 |     100 |
+ app.js   |     100 |    83.33 |     100 |     100 | 20-40
+----------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+<span class="ok">Tests:       10 passed, 10 total</span>
+Time:        1.352 s</pre>
+<p>Resultado: 10 pruebas aprobadas y cobertura de líneas 100 % (umbral ≥ 80 %).</p>
+
+<h2>Evidencia: publicación en GitHub (Parte 1.6)</h2>
+<img src="push.jpg" alt="git push">
+<p>El código quedó subido a la rama <code>main</code> del repositorio.</p>
+
+<h2>Matriz de casos de prueba (resultado local)</h2>
+<table><tr><th>ID</th><th>Endpoint</th><th>Escenario</th><th>Esperado</th><th>Resultado</th></tr>
+<tr><td>CP-01</td><td>GET /health</td><td>Consulta de salud</td><td>200 y {"status":"ok"}</td><td>Pasó</td></tr>
+<tr><td>CP-02</td><td>GET /metrics</td><td>Consulta de métricas</td><td>200 y contiene http_request_duration_seconds</td><td>Pasó</td></tr>
+<tr><td>CP-03</td><td>POST /tasks</td><td>Título válido</td><td>201, id 1, done falso</td><td>Pasó</td></tr>
+<tr><td>CP-04</td><td>POST /tasks</td><td>Sin título</td><td>400</td><td>Pasó</td></tr>
+<tr><td>CP-05</td><td>GET /tasks</td><td>Con una tarea</td><td>Lista de 1</td><td>Pasó</td></tr>
+<tr><td>CP-06</td><td>PUT /tasks/:id/done</td><td>Existente</td><td>200, done verdadero</td><td>Pasó</td></tr>
+<tr><td>CP-07</td><td>PUT /tasks/:id/done</td><td>Inexistente</td><td>404</td><td>Pasó</td></tr>
+<tr><td>CP-08</td><td>DELETE /tasks/:id</td><td>Existente</td><td>204, lista vacía</td><td>Pasó</td></tr>
+<tr><td>CP-09</td><td>DELETE /tasks/:id</td><td>Inexistente</td><td>404</td><td>Pasó</td></tr>
+<tr><td>CP-10</td><td>GET /reporte</td><td>2 tareas, 1 hecha</td><td>total 2, hechas 1, pendientes 1</td><td>Pasó</td></tr></table>
+
+<h2>Evidencias pendientes</h2>
+<div class="pend">Aún no tienen captura real, porque dependen de ejecutarse en GitHub o en Docker en el equipo de la alumna: Evidencia 2 (Actions en verde), 3 (falla controlada), 4 (Prometheus y Grafana), 5 (k6 antes) y 6 (k6 después), además de las tablas antes/después y el plan de mejora M-01 a M-03.</div>
+</body></html>
