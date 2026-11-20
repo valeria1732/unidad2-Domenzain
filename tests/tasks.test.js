@@ -3,14 +3,14 @@ const app = require('../src/app');
 
 beforeEach(() => app.locals.reiniciar());
 
-describe('Salud y mÃ©tricas', () => {
+describe('Salud y métricas', () => {
   test('GET /health responde ok', async () => {
     const res = await request(app).get('/health');
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ status: 'ok' });
   });
 
-  test('GET /metrics expone mÃ©tricas de Prometheus', async () => {
+  test('GET /metrics expone métricas de Prometheus', async () => {
     await request(app).get('/health');
     const res = await request(app).get('/metrics');
     expect(res.status).toBe(200);
@@ -25,7 +25,7 @@ describe('Tareas', () => {
     expect(res.body).toMatchObject({ id: 1, title: 'Estudiar CI', done: false });
   });
 
-  test('POST /tasks sin tÃ­tulo devuelve 400', async () => {
+  test('POST /tasks sin título devuelve 400', async () => {
     const res = await request(app).post('/tasks').send({});
     expect(res.status).toBe(400);
   });
@@ -71,6 +71,7 @@ describe('Reporte', () => {
     expect(res.status).toBe(200);
     expect(res.body).toMatchObject({ total: 2, hechas: 1, pendientes: 1 });
   });
+
   test('GET /reporte responde en menos de 50 ms (regresión de rendimiento)', async () => {
     const inicio = process.hrtime.bigint();
     const res = await request(app).get('/reporte');

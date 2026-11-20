@@ -4,12 +4,12 @@ const client = require('prom-client');
 const app = express();
 app.use(express.json());
 
-// ---------- MÃ©tricas (Prometheus) ----------
+// ---------- Métricas (Prometheus) ----------
 client.collectDefaultMetrics();
 
 const duracionHttp = new client.Histogram({
   name: 'http_request_duration_seconds',
-  help: 'DuraciÃ³n de las peticiones HTTP en segundos',
+  help: 'Duración de las peticiones HTTP en segundos',
   labelNames: ['method', 'route', 'status_code'],
   buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5]
 });
@@ -60,16 +60,11 @@ app.delete('/tasks/:id', (req, res) => {
   res.status(204).end();
 });
 
-// VersiÃ³n 1 del reporte (cÃ³digo heredado).
+// Versión 2 del reporte: solo cuenta las tareas, sin el ciclo heredado.
 function calcularReporte() {
-  // CÃ¡lculo "de validaciÃ³n" heredado que recorre un ciclo muy largo.
-  let acumulado = 0;
-  for (let i = 0; i < 50000000; i++) {
-    acumulado += i % 7;
-  }
   const total = tareas.length;
   const hechas = tareas.filter((t) => t.done).length;
-  return { total, hechas, pendientes: total - hechas, valido: acumulado >= 0 };
+  return { total, hechas, pendientes: total - hechas };
 }
 
 app.get('/reporte', (req, res) => res.json(calcularReporte()));
