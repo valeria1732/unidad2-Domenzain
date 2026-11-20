@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar pruebas con cobertura
+        run: npm test -- --json --outputFile=test-results.json
+
+      - name: Resumen en el panel de la ejecución
+        if: always()
+        run: node scripts/resumen-pruebas.js >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Guardar reportes de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reportes-pruebas
+          path: |
+            test-results.json
+            coverage/
+
+  imagen-docker:
+    needs: pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construir imagen
+        run: docker build -t gestor-tareas:${{ github.sha }} .
+
+      - name: Prueba de humo del contenedor
+        run: |
+          docker run -d --name api -p 3000:3000 gestor-tareas:${{ github.sha }}
+          for i in $(seq 1 15); do curl -sf http://localhost:3000/health && break || sleep 1; done
+          curl -sf http://localhost:3000/health
+          curl -sf http://localhost:3000/metrics | head -n 5
+
+      - name: Mostrar bitácora del contenedor si algo falló
+        if: failure()
+        run: docker logs api
